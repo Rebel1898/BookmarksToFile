@@ -88,9 +88,9 @@ function logItems(bookmarkItem, bookmarkItems) {
 
         var folderimage = document.createElement("img");
         folderimage.setAttribute("class","folderimage")
-        folderimage.setAttribute("src","Images/folder.png")
+        folderimage.setAttribute("src","Images/URL.png")
         folderelement.appendChild(folderimage);
-    
+
         var link = document.createElement("a");
         link.setAttribute("href",url);
         var textlink = document.createTextNode(" "+titulo+" ");

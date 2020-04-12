@@ -2,15 +2,15 @@
 
     "description": "Addon to generate bookmarks as URL files. The interface allows you to select which bookmarks you want to extract and the result is delivered in a zip file",
     "manifest_version": 2,
-    "name": "Bookmarks To File",
-    "version": "1.0",
-    "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/borderify",
+    "name": "BookmarksToFile",
+    "version": "1.1",
+    "homepage_url": "https://github.com/Rebel1898",
     
 
     "browser_action": {
       "browser_style": true,
       "default_icon": "icons/bookmarkicon3.png",
-      "default_title": "Bookmarks To File."
+      "default_title": "BookmarksToFile."
     },
 
     "background": {
