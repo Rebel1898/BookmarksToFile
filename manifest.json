@@ -3,7 +3,7 @@
     "description": "Addon to generate bookmarks as URL files. The interface allows you to select which bookmarks you want to extract and the result is delivered in a zip file",
     "manifest_version": 2,
     "name": "BookmarksToFile",
-    "version": "1.1",
+    "version": "2.0",
     "homepage_url": "https://github.com/Rebel1898",
     
 
@@ -20,7 +20,7 @@
    
     
     "permissions": [
-      "bookmarks", "tabs", "storage", "menus", "downloads","browserSettings","browsingData"
+      "bookmarks", "tabs", "downloads"
      ]
  
   }
@@ -28,6 +28,5 @@
    
 
   
-  
-  
+
   

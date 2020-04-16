@@ -32,12 +32,14 @@ function logItems(bookmarkItem, bookmarkItems) {
 
       var parentname = objetomarker[i].parentId;
       var id2 = objetomarker[i].id;
-      var titulo = objetomarker[i].title;
-      var kinder = objetomarker[i].children;
       var url = objetomarker[i].url;
+      var titulo = objetomarker[i].title;
+   
+      var kinder = objetomarker[i].children;
+      
       var type = objetomarker[i].type;
       if (type == "folder") {
-        
+        if(titulo == ""){ titulo = "No title"}
         // document.getElementById(parentname).innerHTML += "<li class='folder' name='" + id2 + "'><span class='caret caret-down'></span><input class='singlecheck' type='checkbox'><img class ='folderimage' src='Images/folder.png' height='20px' width='20px'>&nbsp;&nbsp;" + titulo + "<ul id=" + id2 + "></ul></li>"
 
         // "<li class='folder' name='" + id2 + "'><span class='caret caret-down'></span><input class='singlecheck' type='checkbox'><img class ='folderimage' src='Images/folder.png' height='20px' width='20px'>&nbsp;&nbsp;" + titulo + "<ul id=" + id2 + "></ul></li>"
@@ -75,7 +77,7 @@ function logItems(bookmarkItem, bookmarkItems) {
 
       }
       else {
-
+        if(titulo == ""){ titulo = url}
         // document.getElementById(parentname).innerHTML += "<li class='urlfile' id='" + id2 + "'><input class='singlecheck' type='checkbox'><img src='Images/URL.png' width='20px;' height='20px;'>&nbsp;&nbsp;<a href='" + url + "'>" + titulo + "</a></li>"
         var folderelement = document.createElement("li");
         folderelement.setAttribute("class","urlfile");
