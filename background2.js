@@ -17,9 +17,8 @@ function logItems(bookmarkItem, bookmarkItems) {
 
   for (i = 0; i < objetomarker.length; i++) {
     if (index == 0) {
-      // var x = "<ul id=" + objetomarker[i].id + "></ul>"
       var header = document.createElement("ul");
-      header.setAttribute("id",objetomarker[i].id);
+      header.setAttribute("id", objetomarker[i].id);
       document.getElementById("header").appendChild(header);
       var kinder = objetomarker[i].children;
 
@@ -34,42 +33,38 @@ function logItems(bookmarkItem, bookmarkItems) {
       var id2 = objetomarker[i].id;
       var url = objetomarker[i].url;
       var titulo = objetomarker[i].title;
-   
+
       var kinder = objetomarker[i].children;
-      
+
       var type = objetomarker[i].type;
       if (type == "folder") {
-        if(titulo == ""){ titulo = "No title"}
-        // document.getElementById(parentname).innerHTML += "<li class='folder' name='" + id2 + "'><span class='caret caret-down'></span><input class='singlecheck' type='checkbox'><img class ='folderimage' src='Images/folder.png' height='20px' width='20px'>&nbsp;&nbsp;" + titulo + "<ul id=" + id2 + "></ul></li>"
-
-        // "<li class='folder' name='" + id2 + "'><span class='caret caret-down'></span><input class='singlecheck' type='checkbox'><img class ='folderimage' src='Images/folder.png' height='20px' width='20px'>&nbsp;&nbsp;" + titulo + "<ul id=" + id2 + "></ul></li>"
-
+        if (titulo == "") { titulo = "No title" }
         var folderelement = document.createElement("li");
-        folderelement.setAttribute("class","folder");
-        folderelement.setAttribute("name",id2);
- 
+        folderelement.setAttribute("class", "folder");
+        folderelement.setAttribute("name", id2);
+
         var spancaret = document.createElement("span")
-        spancaret.setAttribute("class","caret caret-down");
+        spancaret.setAttribute("class", "caret caret-down");
         folderelement.appendChild(spancaret);
-  
+
         var inputelement = document.createElement("input");
-        inputelement.setAttribute("class","singlecheck");
+        inputelement.setAttribute("class", "singlecheck");
         inputelement.setAttribute("type", "checkbox");
         folderelement.appendChild(inputelement);
 
         var folderimage = document.createElement("img");
-        folderimage.setAttribute("class","folderimage")
-        folderimage.setAttribute("src","Images/folder.png")
+        folderimage.setAttribute("class", "folderimage")
+        folderimage.setAttribute("src", "Images/folder.png")
         folderelement.appendChild(folderimage);
 
-        var textnode = document.createTextNode("   "+titulo +" ");
+        var textnode = document.createTextNode("   " + titulo + " ");
         folderelement.appendChild(textnode);
-    
+
         var ul = document.createElement("ul");
-        ul.setAttribute("id",id2);
+        ul.setAttribute("id", id2);
         folderelement.appendChild(ul);
         document.getElementById(parentname).appendChild(folderelement);
-        
+
         for (j = 0; j < kinder.length; j++) {
           objetomarker.push(kinder[j]);
 
@@ -77,25 +72,24 @@ function logItems(bookmarkItem, bookmarkItems) {
 
       }
       else {
-        if(titulo == ""){ titulo = url}
-        // document.getElementById(parentname).innerHTML += "<li class='urlfile' id='" + id2 + "'><input class='singlecheck' type='checkbox'><img src='Images/URL.png' width='20px;' height='20px;'>&nbsp;&nbsp;<a href='" + url + "'>" + titulo + "</a></li>"
+        if (titulo == "") { titulo = url }
         var folderelement = document.createElement("li");
-        folderelement.setAttribute("class","urlfile");
-        folderelement.setAttribute("id",id2);
+        folderelement.setAttribute("class", "urlfile");
+        folderelement.setAttribute("id", id2);
 
         var inputelement = document.createElement("input");
-        inputelement.setAttribute("class","singlecheck");
+        inputelement.setAttribute("class", "singlecheck");
         inputelement.setAttribute("type", "checkbox");
         folderelement.appendChild(inputelement);
 
         var folderimage = document.createElement("img");
-        folderimage.setAttribute("class","folderimage")
-        folderimage.setAttribute("src","Images/URL.png")
+        folderimage.setAttribute("class", "folderimage")
+        folderimage.setAttribute("src", "Images/URL.png")
         folderelement.appendChild(folderimage);
 
         var link = document.createElement("a");
-        link.setAttribute("href",url);
-        var textlink = document.createTextNode(" "+titulo+" ");
+        link.setAttribute("href", url);
+        var textlink = document.createTextNode(" " + titulo + " ");
         link.appendChild(textlink);
         folderelement.appendChild(link);
 
@@ -106,21 +100,20 @@ function logItems(bookmarkItem, bookmarkItems) {
     }
     index++;
   }
-  // console.log(objetomarker);
 
 
-var cerrarcarets= document.getElementsByClassName("caret caret-down")
-for (j = cerrarcarets.length-1; j>=0; j--) {
-cerrarcarets[j].click();
-}
-loaded = true;
-document.getElementById("load-message").style="display:none;"
+  var cerrarcarets = document.getElementsByClassName("caret caret-down")
+  for (j = cerrarcarets.length - 1; j >= 0; j--) {
+    cerrarcarets[j].click();
+  }
+  loaded = true;
+  document.getElementById("load-message").style = "display:none;"
 
 
   var descargartodo = {};
   descargartodo = objetomarker;
   descargartodo.path = "";
-  var rutafinal = writeparentpath(descargartodo[15].parentId, descargartodo, "");
+  //var rutafinal = writeparentpath(descargartodo[descargartodo.length-1].parentId, descargartodo, "");
   // console.log(rutafinal);
   for (b = 0; b < descargartodo.length; b++) {
     if (descargartodo[b].type != "folder") {
@@ -135,26 +128,22 @@ document.getElementById("load-message").style="display:none;"
       bookmarkfiles.push(link);
     }
     else {
-    
+
       descargartodo[b].path = writeparentpath(descargartodo[b].parentId, descargartodo, "");
       bookmarkfiles.push(descargartodo[b]);
     }
   }
 
-  // console.log(bookmarkfiles);
   //Download ALL
   document.getElementById('btn-save-all').addEventListener("click", (e) => {
-    // console.log("Download all");
     var cajas = document.getElementsByClassName("singlecheck");
     for (a = 0; a < cajas.length; a++) {
       cajas[a].checked = true;
 
     }
-  //  console.log(bookmarkfiles);
     GenerateZipfile(bookmarkfiles);
   }
   )
-  //  
 }
 document.getElementById('btn-save-selected').addEventListener("click", (e) => {
   var selectedbookmarks = [];
@@ -171,8 +160,6 @@ document.getElementById('btn-save-selected').addEventListener("click", (e) => {
       }
     }
   }
-  // console.log(selectedbookmarks);
-
   GenerateZipfile(selectedbookmarks);
 })
 
@@ -181,12 +168,11 @@ document.addEventListener("change", (e) => {
   if (e.target.id == "") {
     var etarget = e.target.parentElement.getElementsByTagName("input");
 
-    // e.target.parentElement.children[1].children;
     var x = e.target.checked;
     for (b = 0; b < etarget.length; b++) {
-      
+
       etarget[b].checked = x;
-      
+
     }
 
   }
@@ -194,26 +180,24 @@ document.addEventListener("change", (e) => {
 })
 
 document.addEventListener("click", (e) => {
-    // e.target.parentElement.classList.toggle("active");
-    if(e.target.classList== "caret caret-down" ){
+  if (e.target.classList == "caret caret-down") {
     e.target.classList.toggle("caret-down");
     var listelements = e.target.parentElement.children[3].children;
-    // var estado =    listelements[0].hidden;
-    // console.log(estado);
     for (b = 0; b < listelements.length; b++) {
-      listelements[b].hidden= true;
+      listelements[b].hidden = true;
 
     }
   }
-  else if (e.target.classList == "caret"){
-  e.target.classList.toggle("caret-down");
-  var listelements = e.target.parentElement.children[3].children;
+  else if (e.target.classList == "caret") {
+    e.target.classList.toggle("caret-down");
+    var listelements = e.target.parentElement.children[3].children;
 
-  for (b = 0; b < listelements.length; b++) {
-    listelements[b].hidden= false;
+    for (b = 0; b < listelements.length; b++) {
+      listelements[b].hidden = false;
 
-  }}
-  });
+    }
+  }
+});
 
 function writeparentpath(parentId, descargartodo) {
   try {
@@ -239,14 +223,12 @@ function logTree(bookmarkItems) {
 }
 
 function onRejected(error) {
-  console.log(`An error: ${error}`);/*console*/
+  console.log(`An error: ${error}`);
 }
 
 var gettingTree = browser.bookmarks.getTree();
 
 gettingTree.then(logTree, onRejected);
-
-/*Download*/
 
 function onStartedDownload(id) {
   console.log(`Started downloading: ${id}`);
@@ -259,7 +241,7 @@ function onFailed(error) {
 function downloadContent(name, content) {
   var atag = document.createElement("a");
   var file = new Blob([content], { type: 'application/octet-stream;' });
-  file.name = name;  
+  file.name = name;
   return file;
 
 }
@@ -273,26 +255,26 @@ function GenerateZipfile(bookmarkfiles) {
     if (bookmarkfiles[c].type == "application/octet-stream;") {
       bookmarkfiles[c].name = bookmarkfiles[c].name.replace(/\\/g, "-");
       bookmarkfiles[c].name = bookmarkfiles[c].name.replace(/\//g, "-");
-    
+
       var path = bookmarkfiles[c].path;
-      var file ={}
+      var file = {}
       var file = bookmarkfiles[c];
-      // delete file.path;
-      // delete file.id;
       path = path.slice(0, -1);
       var carpeta = zip.folder(path);
       carpeta.file(bookmarkfiles[c].name, file);
     }
     else if (bookmarkfiles[c].path == undefined) { }
     else {
-      if (bookmarkfiles[c].path == "Bookmarks") { 
-        zip.folder(bookmarkfiles[c].path +"\\"+ bookmarkfiles[c].title); }
-      else { 
+      if (bookmarkfiles[c].path == "Bookmarks") {
+        zip.folder(bookmarkfiles[c].path + "\\" + bookmarkfiles[c].title);
+      }
+      else {
         var carpeta = bookmarkfiles[c].path + bookmarkfiles[c].title;
-        zip.folder(carpeta); }
+        zip.folder(carpeta);
+      }
     }
   }
- 
+
   zip.generateAsync({
     type: "base64", compression: "DEFLATE",
     compressionOptions: {
