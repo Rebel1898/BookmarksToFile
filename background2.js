@@ -1,3 +1,5 @@
+detectarSOyMarcarOpcioninicial();
+
 var loaded = false;
 var index = 0;
 var objetomarker = [];
@@ -96,7 +98,6 @@ function logItems(bookmarkItem, bookmarkItems) {
         document.getElementById(parentname).appendChild(folderelement);
 
       }
-
     }
     index++;
   }
@@ -113,16 +114,29 @@ function logItems(bookmarkItem, bookmarkItems) {
   var descargartodo = {};
   descargartodo = objetomarker;
   descargartodo.path = "";
-  //var rutafinal = writeparentpath(descargartodo[descargartodo.length-1].parentId, descargartodo, "");
-  // console.log(rutafinal);
+
+
+
   for (b = 0; b < descargartodo.length; b++) {
     if (descargartodo[b].type != "folder") {
       var ruta = writeparentpath(descargartodo[b].parentId, descargartodo, "");
       var downloadUrl = descargartodo[b].url;
-      var title = descargartodo[b].title + ".URL";
+      var title = descargartodo[b].title;
       var text = "[InternetShortcut]\nURL=" + downloadUrl + "\nIDList= \nHotKey=0 \nIconFile= \nIconIndex=0";
       text = text.replace(/\n/g, "\r\n");
-      var link = downloadContent(title, text);
+
+      var textLinuxDesktop = "[Desktop Entry]\nVersion=1.0\nType=Link\nName=" + title + "\nComment=Acceso directo a una web\nIcon=text-html\nURL=" + downloadUrl
+
+      var textMac = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>URL</key><string>${downloadUrl}</string></dict></plist>`;
+
+
+      var link = {};
+      link.title = title;
+      link.text = text;
+      link.textMac = textMac;
+      link.textLinuxDesktop = textLinuxDesktop;
+
+
       link.path = ruta
       link.id = descargartodo[b].id;
       bookmarkfiles.push(link);
@@ -130,6 +144,7 @@ function logItems(bookmarkItem, bookmarkItems) {
     else {
 
       descargartodo[b].path = writeparentpath(descargartodo[b].parentId, descargartodo, "");
+      descargartodo[b].text = null;
       bookmarkfiles.push(descargartodo[b]);
     }
   }
@@ -170,9 +185,7 @@ document.addEventListener("change", (e) => {
 
     var x = e.target.checked;
     for (b = 0; b < etarget.length; b++) {
-
       etarget[b].checked = x;
-
     }
 
   }
@@ -185,19 +198,20 @@ document.addEventListener("click", (e) => {
     var listelements = e.target.parentElement.children[3].children;
     for (b = 0; b < listelements.length; b++) {
       listelements[b].hidden = true;
-
     }
   }
   else if (e.target.classList == "caret") {
     e.target.classList.toggle("caret-down");
     var listelements = e.target.parentElement.children[3].children;
-
     for (b = 0; b < listelements.length; b++) {
       listelements[b].hidden = false;
 
     }
   }
 });
+
+
+
 
 function writeparentpath(parentId, descargartodo) {
   try {
@@ -207,9 +221,9 @@ function writeparentpath(parentId, descargartodo) {
       return ruta = "Bookmarks";
     }
     if (objeto.parentId != undefined) {
-      ruta = "\\" + objeto.title + "\\";
+      ruta = "/" + objeto.title + "/";
       ruta = writeparentpath(objeto.parentId, descargartodo) + ruta;
-      ruta = ruta.replace(/\\\\/g, "\\");;
+      ruta = ruta.replace(/\/{2,}/g, "/");
     }
     else {
       ruta = "";
@@ -238,53 +252,52 @@ function onFailed(error) {
   console.log(`Download failed: ${error}`);
 }
 
-function downloadContent(name, content) {
-  var atag = document.createElement("a");
-  var file = new Blob([content], { type: 'application/octet-stream;' });
-  file.name = name;
-  return file;
-
-}
 function GenerateZipfile(bookmarkfiles) {
-  var atag = document.createElement("a");
-  var zip = new JSZip();
-  var zipitems = [];
-  zipitems.push(bookmarkfiles[0]);
 
-  for (var c = 0; c < bookmarkfiles.length; c++) {
-    if (bookmarkfiles[c].type == "application/octet-stream;") {
-      bookmarkfiles[c].name = bookmarkfiles[c].name.replace(/\\/g, "-");
-      bookmarkfiles[c].name = bookmarkfiles[c].name.replace(/\//g, "-");
+  var extension = document.getElementById("OS").value;
+  var newzipitems = {};
 
+  for (var c = 1; c < bookmarkfiles.length; c++) {
+    if (bookmarkfiles[c].type == "folder") {
       var path = bookmarkfiles[c].path;
-      var file = {}
-      var file = bookmarkfiles[c];
-      path = path.slice(0, -1);
-      var carpeta = zip.folder(path);
-      carpeta.file(bookmarkfiles[c].name, file);
+      newzipitems[path + "/" + bookmarkfiles[c].title] = null;
     }
+
     else if (bookmarkfiles[c].path == undefined) { }
     else {
-      if (bookmarkfiles[c].path == "Bookmarks") {
-        zip.folder(bookmarkfiles[c].path + "\\" + bookmarkfiles[c].title);
-      }
-      else {
-        var carpeta = bookmarkfiles[c].path + bookmarkfiles[c].title;
-        zip.folder(carpeta);
-      }
+      var title = (bookmarkfiles[c].path + "/" + bookmarkfiles[c].title + extension).replace(/\/{2,}/g, "/");
+      var texto = extension === ".webloc" ? bookmarkfiles[c].textMac : extension === ".desktop-url" ? bookmarkfiles[c].textLinuxDesktop : bookmarkfiles[c].text;
+      newzipitems[title] = fflate.strToU8(texto);
     }
   }
+  let zipped = fflate.zipSync(newzipitems);
+  let blob = new Blob([zipped], { type: 'application/zip' });
+  let link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = ReturnFileName("Bookmarks_", ".zip");
+  link.click();
+}
 
-  zip.generateAsync({
-    type: "base64", compression: "DEFLATE",
-    compressionOptions: {
-      level: 9
-    }
-  })
-    .then(function (content) {
-      atag.href = "data:application/zip;base64," + content;
-      atag.download = "Bookmarks";
-      atag.click();
+function ReturnFileName(cadena, extension) {
+  const ahora = new Date();
+  const dd = String(ahora.getDate()).padStart(2, '0');
+  const MM = String(ahora.getMonth() + 1).padStart(2, '0'); // Meses van de 0-11
+  const yyyy = ahora.getFullYear();
+  const HH = String(ahora.getHours()).padStart(2, '0');
+  const mm = String(ahora.getMinutes()).padStart(2, '0');
+  return cadena + `${dd}.${MM}.${yyyy}_${HH}.${mm}` + extension;
+}
 
-    });
+async function detectarSOyMarcarOpcioninicial() {
+  const info = await browser.runtime.getPlatformInfo();
+  switch (info.os) {
+    case "mac":
+      document.getElementById('OS').value = ".webloc";
+      break;
+    case "linux":
+      document.getElementById('OS').value = ".desktop";
+      break;
+    default:
+      document.getElementById('OS').value = ".url";
+  }
 }

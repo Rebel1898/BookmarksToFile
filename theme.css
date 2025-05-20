@@ -47,7 +47,44 @@
   height: 20px;
   width: 20px;
  }
-  button{ 
-    margin: 6px;
-  }
-  
+select {
+    background-color: #f0f0f0;
+    border: 2px solid #000000;
+    padding: 6px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button {
+    background-color: #d9d9d9; /* Gris claro para aspecto limpio */
+    color: #333; /* Texto en gris oscuro para contraste */
+    border: 2px solid #888; /* Borde más definido */
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 25px; /* Bordes bien redondeados */
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #bfbfbf; /* Cambio sutil al pasar el mouse */
+    transform: scale(1.05); /* Pequeño efecto de crecimiento */
+}
+span{
+      font-size: 22px;
+}
+li{
+        font-size: 22px;
+
+}
+select:hover {
+    background-color: #e0e0e0; /* Cambio de color sutil */
+    border-color: #555; /* Borde más oscuro */
+}
+
+/* Efecto al hacer clic */
+select:focus {
+    outline: none;
+    border-color: #0078d4; /* Color de resaltado */
+    box-shadow: 0px 0px 8px rgba(0, 120, 212, 0.5); /* Sombra elegante */
+}

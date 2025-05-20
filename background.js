@@ -3,5 +3,4 @@ function openPage() {
     url: "./index.html"
   });
 }
-browser.browserAction.onClicked.addListener(openPage);
-
+chrome.browserAction.onClicked.addListener(openPage);

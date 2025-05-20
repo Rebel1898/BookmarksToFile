@@ -1,32 +1,24 @@
 {
 
-    "description": "Addon to generate bookmarks as URL files. The interface allows you to select which bookmarks you want to extract and the result is delivered in a zip file",
-    "manifest_version": 3,
-    "name": "BookmarksToFile",
-    "version": "2.1",
-    "homepage_url": "https://github.com/Rebel1898",
-    
-
-    "browser_action": {
-      "browser_style": true,
-      "default_icon": "icons/bookmarkicon3.png",
-      "default_title": "BookmarksToFile."
-    },
-
-    "background": {
-      "scripts": ["background.js","background2.js"]
-    },
-
-   
-    
-    "permissions": [
-      "bookmarks", "tabs", "downloads"
-     ]
- 
-  }
-
-   
-
-  
-
-  
+  "description": "Addon to generate bookmarks as URL files. The interface allows you to select which bookmarks you want to extract and the result is delivered in a zip file",
+  "manifest_version": 2,
+  "name": "BookmarksToFile",
+  "version": "3.0",
+  "homepage_url": "https://github.com/Rebel1898",
+  "browser_action": {
+    "default_icon": "icons/bookmarkicon3.png",
+    "default_title": "BookmarksToFile."
+  },
+  "background": {
+    "scripts": [
+      "background.js",
+      "background2.js",
+      "fflate.min.js"
+    ]
+  },
+  "permissions": [
+    "bookmarks",
+    "tabs",
+    "downloads"
+  ]
+}

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="theme.css"> 
     <link rel="icon" href="icons/bookmarkicon3.png">
@@ -14,8 +15,17 @@
 </div>
  
 <div>
+<br>
+<span>File Extension:</span>
+<select id="OS" name="OS" required>
+  <option value=".url">.url (Windows)</option>
+  <option value=".desktop">.desktop (Linux)</option>
+  <option value=".webloc">.webloc (Mac)</option>
+</select>
+
     <button  id="btn-save-all" class="prueba" >Download all items</button>
     <button  id="btn-save-selected" class="prueba" >Download selected items</button>
+  
 </div>
 <ul id="header">   <li><u>Bookmarks</u></li>
 </ul>
@@ -24,5 +34,5 @@
 <ul id="markers"></ul>
 </body>
 <script src="background2.js"></script>
-<script src ="jszip.min.js"></script>
+<script src ="fflate.min.js"></script>
 </html>
